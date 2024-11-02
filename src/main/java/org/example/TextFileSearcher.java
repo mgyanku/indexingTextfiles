@@ -7,18 +7,22 @@ import java.util.*;
 
 /**
  * TextFileSearcher
- * handles indexing and categorizing of files and folders
+ * Handles indexing and categorizing of files and folders
  *
  * @author Miriam Yanku
  */
 public class TextFileSearcher {
     private Map<String, Set<String>> index = new HashMap<>();
-    private String source;
     private int wordCounter;
 
     public TextFileSearcher() {
     }
 
+    /**
+     * Indexes files
+     * @param file that needs to be indexed
+     * @throws IOException when error happens during indexing
+     */
     public void indexFile(File file) throws IOException {
         if (file.isFile()) {
             String content = new String(Files.readAllBytes(file.toPath()));
@@ -32,6 +36,11 @@ public class TextFileSearcher {
         }
     }
 
+    /**
+     * Indexes folders
+     * @param directory that needs to be indexed
+     * @throws IOException when error happens during indexing
+     */
     public void indexDirectory(File directory) throws IOException {
         if (directory.isDirectory()) {
             for (File file : Objects.requireNonNull(directory.listFiles())) {
@@ -42,17 +51,15 @@ public class TextFileSearcher {
         }
     }
 
+    /**
+     * Searches for word in source
+     * @param word that needs to be searched
+     * @return collection of results
+     */
     public Set<String> search(String word) {
-        return index.getOrDefault(word.toLowerCase(), Collections.emptySet()); // Return files containing the word
+        return index.getOrDefault(word.toLowerCase(), Collections.emptySet());
     }
 
-    public Map<String, Set<String>> getIndex() {
-        return index;
-    }
-
-    public String getSource() {
-        return source;
-    }
 
     public int getWordCounter() {
         return wordCounter;
